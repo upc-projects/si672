@@ -1,14 +1,12 @@
 package com.upc.pc1.moviles.ui
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.upc.pc1.moviles.R
-
 import com.upc.pc1.moviles.model.ArtWork
 import kotlinx.android.synthetic.main.art_work_item.view.*
 
@@ -18,7 +16,11 @@ import kotlinx.android.synthetic.main.art_work_item.view.*
  * Contact: lizama.enzo@gmail.com
  */
 
-class ArtWorkAdapter(val context: Context, private val artWorks: List<ArtWork>) :
+class ArtWorkAdapter(
+    val context: Context,
+    private val artWorks: List<ArtWork>,
+    private val callback: ArtItemCallback
+) :
     RecyclerView.Adapter<ArtWorkAdapter.ArtWorkViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtWorkViewHolder {
@@ -42,10 +44,9 @@ class ArtWorkAdapter(val context: Context, private val artWorks: List<ArtWork>) 
         fun bind(artWork: ArtWork) {
             artWorkName.text = artWork.name
             artWorkDescription.text = artWork.description
-            Glide.with(context).load(artWork.image).into(artWorkImage);
+            Glide.with(context).load(artWork.image).into(artWorkImage)
             cardArtWork.setOnClickListener {
-                val intent = Intent(this, DetailArtWorkActivity::class.java)
-
+                callback.goToArtDetailPage(artWork)
             }
         }
     }
